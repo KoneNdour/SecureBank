@@ -24,9 +24,9 @@ Ce projet est réalisé dans le cadre du cours de **Programmation Sécurisée (P
 | Nom & Prénom | Adresse e-mail | Rôle |
 | :--- | :--- | :--- |
 | **Khadidiatou FAYE** | faye50938@gmail.com | Chef de projet |
-| **Fatou NDOUR** | fatoundour@esp.sn | Développeur Backend |
-| **Cheikh Ahmed Tidiane DIENG** | cheikhahmedtidianedieng1@esp.sn | Développeur Front-end |
-| **Mamadou Koné NDOUR** | mamadounndour@gmail.com | Sécurité & Tests |
+| **Cheikh Ahmed Tidiane DIENG** | cheikhahmedtidianedieng1@esp.sn | Développeur Backend |
+| **Mamadou Koné NDOUR** | mamadounndour@gmail.com | Développeur Front-end |
+| **Fatou NDOUR** | fatoundour@esp.sn |  Sécurité & Tests|
 
 ---
 
