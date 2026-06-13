@@ -1,67 +1,126 @@
 <p align="center">
   <img src="https://img.shields.io/badge/UCAD-École%20Supérieure%20Polytechnique-blue?style=for-the-badge" alt="ESP UCAD">
-  <img src="https://img.shields.io/badge/Master%201-SSI%20%7C%20Programmation%20S%C3%A9curis%C3%A9e-red?style=for-the-badge" alt="M1 SSI">
+  <img src="https://img.shields.io/badge/Master%201-SSI%20%7C%20DevSecOps-red?style=for-the-badge" alt="M1 SSI">
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/v/release/Cheikhdg14/SecureBank?style=flat-square&color=emerald" alt="Release">
-  <img src="https://img.shields.io/github/stars/Cheikhdg14/SecureBank?style=flat-square&color=blue" alt="Stars">
-  <img src="https://img.shields.io/badge/Node.js-v20%20LTS-green?style=flat-square&logo=node.js" alt="Node.js Version">
-  <img src="https://img.shields.io/badge/Database-PostgreSQL-blue?style=flat-square&logo=postgresql" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Sprint-Alpha-emerald?style=flat-square" alt="Sprint Alpha">
+  <img src="https://img.shields.io/badge/Backend-Spring%20Boot%203.2-brightgreen?style=flat-square&logo=springboot" alt="Spring Boot">
+  <img src="https://img.shields.io/badge/Frontend-React%2018%20%7C%20Vite-blue?style=flat-square&logo=react" alt="React">
+  <img src="https://img.shields.io/badge/BDD-MySQL%208-orange?style=flat-square&logo=mysql" alt="MySQL">
 </p>
 
 ---
 
-# 🛡️ SecurBank - Logiciel Bancaire Sécurisé
+# 🛡️ SecureBank - Plateforme Bancaire Sécurisée
 
-**SecurBank** est une application bancaire distribuée à succursales multiples, conçue avec une architecture client-serveur hautement sécurisée. Elle permet à des clients d'accéder à leurs comptes et d'effectuer des opérations financières depuis n'importe quel site de l'entreprise, tout en garantissant une traçabilité complète, une authentification forte et le chiffrement des données.
+**SecureBank** est une application bancaire distribuée à succursales multiples, conçue selon une approche stricte de *Security by Design* au sein du cycle DevSecOps. Le système repose sur un backend robuste en **Spring Boot 3.2** exposant une API REST stateless et une interface utilisateur moderne développée en **React 18 / Vite**. 
+
+L'application garantit une traçabilité cryptographique absolue via un chaînage de blocs d'audit, une authentification forte à double facteur (2FA) par e-mail, et le chiffrement de bout en bout des données financières sensibles au repos et en transit.
 
 ---
 
-## 👥 L'Équipe du Projet
-Ce projet est réalisé dans le cadre du cours de **Programmation Sécurisée (Partie 1)** dispensé par **Mr Doudou FALL** à l'École Supérieure Polytechnique (ESP) de Dakar.
+## 👥 Équipe de Développement (DIC2-SSI | ESP Dakar)
+Ce projet est réalisé dans le cadre du module de **DevSecOps** sous la direction du **Professeur Doudou FALL** à l'École Supérieure Polytechnique de Dakar (Année Académique 2025-2026).
 
 | Nom & Prénom | Adresse e-mail | Rôle |
 | :--- | :--- | :--- |
 | **Khadidiatou FAYE** | faye50938@gmail.com | Chef de projet |
 | **Cheikh Ahmed Tidiane DIENG** | cheikhahmedtidianedieng1@esp.sn | Développeur Backend |
 | **Mamadou Koné NDOUR** | mamadounndour@gmail.com | Développeur Front-end |
-| **Fatou NDOUR** | fatoundour@esp.sn |  Sécurité & Tests|
+| **Fatou NDOUR** | fatoundour@esp.sn | Sécurité & Tests |
 
 ---
 
-## ⚙️ Stack Technique & Langages
-* **Runtime :** JavaScript / Node.js (v20 LTS)
-* **Framework API :** Express.js
-* **Base de données :** PostgreSQL (via le pilote natif `pg`)
-* **Outils d'Équipe :** 
-  * Gestion de versions : **GitHub** (Workflow par branches avec revues de code systématiques)
-  * Réunion de suivi : Tous les samedis de 20h00 à 23h00 (Google Meet) avec compte-rendu hebdomadaire.
+## ⚙️ Spécifications de la Stack Technique
+
+### Backend
+* **Framework :** Spring Boot 3.2 / Java 25 (cible de compilation stable : Java 21)
+* **Persistance :** Spring Data JPA / Hibernate (génération et synchronisation d'infrastructure `ddl-auto: update`)
+* **Sécurité :** Spring Security 6 (Architecture sans état via JWT)
+* **Zéro-Lombok :** Suite à des incompatibilités majeures de la librairie avec Java 25, le projet n'utilise **aucune** dépendance Lombok. L'intégralité des POJOs, DTOs et Patrons Builders a été réécrits manuellement pour assurer la transparence et la stabilité absolue du code source.
+* **Documentation :** Swagger UI activé et disponible sur `http://localhost:8080/swagger-ui/index.html`.
+
+### Frontend
+* **Framework UI :** React 18.3.1 / Vite 5.4.2 (sans dépendances CSS externes : intégration via CSS Custom Properties).
+* **Communication API :** Fetch API natif configuré avec le chemin relatif `/api`. Les appels passent par le proxy de développement Vite vers le port `8080` (mécanisme anti-CORS).
+* **Gestion d'État :** Routage interne par gestion d'état (`useState`), Context API (`AuthContext`) pour la propagation globale de session, et persistance du jeton dans le `localStorage`.
 
 ---
 
-## 🔐 Éléments de Sécurité Essentiels
+## 🔐 Architecture de Sécurité et Cryptographie
 
-Le système met en œuvre des mécanismes rigoureux pour répondre aux critères fondamentaux de la sécurité de l'information :
-
-| Pilier de Sécurité | Intégration et Implémentation dans SecurBank |
+| Pilier de Sécurité | Implémentation et Mécanismes dans SecureBank |
 | :--- | :--- |
-| **Authentification Forte** | Identifiant + mot de passe haché avec `bcrypt` (work factor / coût de 12). Gestion de session via des jetons **JWT** signés en `HMAC-SHA256` et invalidés à la déconnexion. |
-| **Autorisation (DAC)** | Contrôle d'accès discrétionnaire strict géré par des middlewares Express.js selon 3 rôles distincts : **Client**, **Agent** et **Administrateur**. |
-| **Audit & Non-répudiation** | Journal d'audit persistant et immuable. Chaque action sensible enregistre l'acteur, l'horodatage UTC, l'IP source, l'état avant/après et un **hash SHA-256 chaîné** pour prévenir toute falsification. |
-| **Confidentialité & Intégrité** | Données financières hautement sensibles (soldes, transactions) chiffrées au repos en **AES-256-GCM** en base de données. Flux réseau chiffrés de bout en bout via **HTTPS (TLS 1.3)** renforcé par les en-têtes `helmet`. |
+| **Authentification Forte (2FA)** | Processus de connexion obligatoire en 2 étapes : validation du mot de passe haché par `BCrypt` (Facteur de coût de 12) **+** validation d'un code OTP à 6 chiffres généré cryptographiquement (`SecureRandom`) envoyé par e-mail (Validité stricte de 5 min, protection anti-rejeu). |
+| **Sessions Sans État (Stateless)** | Aucun cookie de session HTTP ou état stocké côté serveur. Émission d'un token **JWT** éphémère (validité 1 heure) signé numériquement via `HMAC-SHA256` incluant les privilèges utilisateurs (`ROLE_CLIENT`, `ROLE_ADMIN`). |
+| **Contrôle d'Accès Strict (RBAC)** | Protection double barrière : filtrage des requêtes HTTP via les filtres Spring Security et sécurisation des méthodes métier par annotations `@PreAuthorize` au niveau de l'API. Une vérification d'identité stricte est opérée côté serveur pour empêcher toute escalade de privilèges. |
+| **Chiffrement au Repos** | Chiffrement avancé **AES-256-GCM** des montants, soldes et données financières sensibles en base de données. Chaque chiffrement génère un vecteur d'initialisation (IV) de 12 octets unique. |
+| **Journal d'Audit Immuable** | Implémentation d'une chaîne d'audit inspirée du principe de la Blockchain. Chaque entrée génère un hash `HMAC-SHA256` lié cryptographiquement au hash de la ligne précédente (`previous_hash`). Toute tentative de falsification ou de suppression en BDD brise la chaîne et lève instantanément une alerte d'intégrité. |
 
 ---
 
-## 🚀 Fonctionnalités Principales
+## 🛡️ Analyse SAST & Vigilance Sécurité (Semgrep)
 
-### 👤 Espace Client
-* Inscription et authentification sécurisée.
-* Consultation du solde et de l'historique des transactions en temps réel.
-* Réalisation de virements internes sécurisés et gestion des bénéficiaires.
+Conformément à nos exigences de pipeline **DevSecOps**, des scans d'analyse statique de sécurité (**SAST**) sont menés de manière continue via **Semgrep** sur le dépôt du projet afin de déceler les vulnérabilités de code au plus tôt.
 
-### 💼 Espace Personnel Bancaire (Agents & Admin)
-* **Agents :** Gestion opérationnelle des comptes clients (Création, blocage et déblocage de comptes).
-* **Administrateurs :** Droits de supervision complets sur l'ensemble de l'infrastructure et de la gestion des utilisateurs de la plateforme.
+### Rapport d'audit de vulnérabilité détectée (Sprint Alpha)
+* **Identifiant de la règle :** `java.lang.security.audit.crypto.weak-random.weak-random`
+* **Fichier ciblé :** `/src/secureBank/securebank_Backend/src/main/java/com/securebank/service/AccountService.java` (Ligne 75)
+* **Gravité :** Élevée (Alerte Cryptographique)
+
+> ⚠️ **Message d'alerte Semgrep :**
+> *"Détection de l'utilisation des fonctions `Math.random()` ou `java.util.Random()`. Ces générateurs de nombres aléatoires ne sont pas cryptographiquement forts. Si vous utilisez ces générateurs (RNG) pour créer des mots de passe, des identifiants ou des jetons secrets, utilisez plutôt `java.security.SecureRandom`."*
+
+### Mesure de remédiation appliquée
+Afin de bloquer les attaques par prédiction de séquences d'identifiants (indispensable pour une plateforme bancaire), l'intégralité des fonctionnalités critiques de SecureBank (génération des numéros de compte uniques `SBxxxxxxxxxx` et des codes OTP à 6 chiffres) a été migrée de manière stricte vers la classe **`java.security.SecureRandom`**, garantissant un niveau d'aléa de force cryptographique industrielle conforme aux exigences de l'audit.
 
 ---
+
+## 📊 Schéma de la Base de Données (MySQL)
+
+Le schéma relationnel `securebank_db` est structuré autour de 5 tables clés :
+* **`users`** : Stockage des comptes (mots de passe hachés BCrypt, statut d'activation, rôles RBAC).
+* **`accounts`** : Comptes bancaires associés aux clients (`CHECKING` ou `SAVINGS`) dotés de numéros uniques au format `SBxxxxxxxxxx`.
+* **`transactions`** : Historique atomique (`@Transactional` ACID) avec référence unique UUID.
+* **`audit_logs`** : Journal sécurisé contenant les actions, e-mails des acteurs, adresses IP, hashs et empreintes HMAC chaînées.
+* **`otp_tokens`** : Codes OTP temporaires hashés en BDD pour l'authentification et les virements.
+
+---
+
+## 🚀 Catalogue Exhaustif des Endpoints API
+
+Toutes les requêtes retournent un format JSON standardisé : 
+`{"success": true/false, "message": "...", "data": {...} ou null, "timestamp": "..."}`
+
+### 1. Module Authentification (Public)
+* `POST /api/auth/register` : Inscription d'un nouveau client. Le compte est créé désactivé (`enabled=false`) par défaut pour des raisons de sécurité de flux.
+* `POST /api/auth/login` : Étape 1 de la connexion. Vérifie les identifiants et déclenche l'envoi de l'OTP par e-mail.
+* `POST /api/auth/verify-otp` : Étape 2 de la connexion. Valide le jeton OTP et retourne le JWT ainsi que le rôle et l'e-mail de l'utilisateur.
+
+### 2. Espace Client (ROLE_CLIENT) - *Header Authorization Obligatoire*
+* `POST /api/accounts` : Ouverture d'un nouveau compte bancaire (Courant ou Épargne).
+* `GET /api/accounts` : Liste tous les comptes dont l'utilisateur connecté est le propriétaire exclusif.
+* `GET /api/accounts/{num}/balance` : Consultation sécurisée du solde actualisé.
+* `POST /api/transactions/transfer/initiate` : Étape 1 du virement. Vérifie la provision, génère une référence de transaction UUID et envoie un code OTP de confirmation par e-mail.
+* `POST /api/transactions/transfer/confirm` : Étape 2 du virement. Valide l'OTP et exécute le transfert financier de manière atomique en base de données.
+* `GET /api/transactions/history/{num}` : Récupère l'historique complet des transactions du compte ciblé.
+
+### 3. Espace Administration (ROLE_ADMIN uniquement)
+* `GET /api/admin/users` : Liste exhaustive de tous les utilisateurs et de leurs comptes respectifs (via DTO sécurisés).
+* `PATCH /api/admin/users/{id}/enable?enabled=true` : Activation administrative ou blocage immédiat d'un compte utilisateur.
+* `PATCH /api/admin/accounts/{num}/suspend` : Suspension conservatoire d'un compte bancaire en cas de suspicion de fraude.
+* `GET /api/admin/audit` : Extraction complète du journal d'audit de l'infrastructure.
+* `GET /api/admin/audit/integrity` : Exécute l'algorithme de vérification de l'intégrité de la chaîne de hachage HMAC.
+
+---
+
+## 🛠️ Guide d'Installation et Lancement Local
+
+### 1. Initialisation de la Base de Données
+1. Lancez votre serveur MySQL (via XAMPP ou conteneur natif).
+2. Créez la base de données via votre CLI ou phpMyAdmin :
+   ```sql
+   CREATE DATABASE securebank_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+   ALTER USER 'root'@'localhost' IDENTIFIED BY 'votre_mot_de_passe_mysql';
+   FLUSH PRIVILEGES;
